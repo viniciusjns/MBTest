@@ -1,4 +1,4 @@
-package com.vinicius.mbtest.domain
+package com.vinicius.mbtest.domain.repository
 
 import com.vinicius.mbtest.domain.model.Exchange
 import kotlinx.coroutines.flow.Flow

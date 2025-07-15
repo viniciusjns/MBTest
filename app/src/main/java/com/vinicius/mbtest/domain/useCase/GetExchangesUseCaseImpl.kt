@@ -1,6 +1,6 @@
 package com.vinicius.mbtest.domain.useCase
 
-import com.vinicius.mbtest.domain.GetExchangesRepository
+import com.vinicius.mbtest.domain.repository.GetExchangesRepository
 
 class GetExchangesUseCaseImpl(
     private val repository: GetExchangesRepository
