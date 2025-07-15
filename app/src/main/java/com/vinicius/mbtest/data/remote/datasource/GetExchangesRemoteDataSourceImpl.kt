@@ -1,5 +1,6 @@
 package com.vinicius.mbtest.data.remote.datasource
 
+import android.util.Log
 import com.vinicius.mbtest.data.remote.api.CoinService
 import com.vinicius.mbtest.data.remote.model.ExchangeResponse
 import com.vinicius.mbtest.domain.model.Exchange
@@ -16,13 +17,14 @@ class GetExchangesRemoteDataSourceImpl(
 ) : GetExchangesRemoteDataSource {
 
     override fun getExchanges(): Flow<List<ExchangeResponse>> = flow {
+        Log.i("GetExchangesRemoteDataSourceImpl", "Fetching exchanges...")
 //        emit(service.getExchanges())
 
 //        kotlinx.coroutines.delay(1000L)
-        emit(mockExchanges())
+//        emit(mockExchanges())
 
 //        kotlinx.coroutines.delay(1000L)
-//        emit(throw Exception())
+        emit(throw Exception())
     }.flowOn(dispatcher)
 
     private fun mockExchanges(): List<ExchangeResponse> {
