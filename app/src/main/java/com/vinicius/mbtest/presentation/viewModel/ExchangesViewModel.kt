@@ -33,11 +33,6 @@ class ExchangesViewModel(
                     setState {
                         this.copy(syncState = ExchangesSyncState.Error(message = exception.localizedMessage ?: "An error occurred"))
                     }
-                    sendAction {
-                        ExchangesAction.ShowErrorSnackbar(
-                            exception.localizedMessage ?: "Failed to fetch exchanges"
-                        )
-                    }
                 }
                 .collect { exchangesList ->
                     val dataUi = exchangesList.map { exchanges ->

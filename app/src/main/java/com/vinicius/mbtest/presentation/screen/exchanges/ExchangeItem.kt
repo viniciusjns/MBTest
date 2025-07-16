@@ -18,9 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.vinicius.mbtest.R
+import com.vinicius.mbtest.navigation.Screen
 import com.vinicius.mbtest.presentation.model.ExchangeDataUi
 
 @Composable
@@ -32,7 +35,7 @@ fun ExchangeItem(
         modifier = Modifier
             .padding(bottom = 8.dp)
             .clickable {
-                navController.navigate(route = "exchange_detail/${exchangeDataUi.exchangeId}") },
+                navController.navigate(route = Screen.ExchangeDetailScreen.passExchangeId(exchangeId = exchangeDataUi.exchangeId!!)) },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -73,7 +76,7 @@ fun ExchangeItem(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
-                        text = "ID: ${exchangeDataUi.exchangeId}",
+                        text = stringResource(R.string.id, exchangeDataUi.exchangeId!!),
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.labelSmall,
                     )
@@ -81,14 +84,14 @@ fun ExchangeItem(
             }
             Spacer(modifier = Modifier.size(8.dp))
             Text(
-                text = "USD Volume",
+                text = stringResource(R.string.usd_volume),
                 style = MaterialTheme.typography.labelLarge
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "1hr",
+                    text = stringResource(R.string.one_hour),
                     style = MaterialTheme.typography.labelLarge
                 )
                 Text(

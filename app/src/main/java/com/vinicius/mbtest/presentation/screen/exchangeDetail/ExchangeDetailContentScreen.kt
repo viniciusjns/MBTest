@@ -33,19 +33,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.vinicius.mbtest.R
 import com.vinicius.mbtest.presentation.model.ExchangeDataUi
+import com.vinicius.mbtest.presentation.viewModel.ExchangeDetailViewIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeDetailContentScreen(
     exchange: ExchangeDataUi,
-    navController: NavController,
+    intent: (ExchangeDetailViewIntent) -> Unit,
     scrollState: ScrollState = rememberScrollState()
 ) {
     Scaffold(
@@ -53,8 +56,11 @@ fun ExchangeDetailContentScreen(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    IconButton(onClick = { intent(ExchangeDetailViewIntent.OnBackPressed) }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back)
+                        )
                     }
                 }
             )
@@ -64,10 +70,9 @@ fun ExchangeDetailContentScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .navigationBarsPadding()
                 .verticalScroll(scrollState)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = 16.dp, vertical = 24.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(
@@ -93,14 +98,14 @@ fun ExchangeDetailContentScreen(
 //                )
 
                     Text(
-                        text = exchange.name ?: "N/A",
+                        text = exchange.name ?: stringResource(R.string.not_available),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
 
                     Text(
-                        text = exchange.website ?: "",
+                        text = exchange.website.orEmpty(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center
@@ -109,33 +114,33 @@ fun ExchangeDetailContentScreen(
             }
 
             Text(
-                text = "Símbolos disponíveis: ${exchange.dataSymbolsCount ?: "0"}",
+                text = stringResource(R.string.available_symbols, exchange.dataSymbolsCount ?: "0"),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            SectionCard(title = "Períodos de Cotação") {
-                InfoRow("Início", exchange.dataQuoteStart ?: "N/A")
-                InfoRow("Fim", exchange.dataQuoteEnd ?: "N/A")
+            SectionCard(title = stringResource(R.string.quote_periods)) {
+                InfoRow(stringResource(R.string.start), exchange.dataQuoteStart ?: stringResource(R.string.not_available))
+                InfoRow(stringResource(R.string.end), exchange.dataQuoteEnd ?: stringResource(R.string.not_available))
             }
 
-            SectionCard(title = "Livro de Ofertas") {
-                InfoRow("Início", exchange.dataOrderBookStart ?: "N/A")
-                InfoRow("Fim", exchange.dataOrderBookEnd ?: "N/A")
+            SectionCard(title = stringResource(R.string.order_book)) {
+                InfoRow(stringResource(R.string.start), exchange.dataOrderBookStart ?: stringResource(R.string.not_available))
+                InfoRow(stringResource(R.string.end), exchange.dataOrderBookEnd ?: stringResource(R.string.not_available))
             }
 
-            SectionCard(title = "Negociações") {
-                InfoRow("Início", exchange.dataTradeStart ?: "N/A")
-                InfoRow("Fim", exchange.dataTradeEnd ?: "N/A")
+            SectionCard(title = stringResource(R.string.trades)) {
+                InfoRow(stringResource(R.string.start), exchange.dataTradeStart ?: stringResource(R.string.not_available))
+                InfoRow(stringResource(R.string.end), exchange.dataTradeEnd ?: stringResource(R.string.not_available))
             }
 
-            SectionCard(title = "Volumes de Transação") {
-                VolumeRow("Última hora", exchange.volume1hrsUsd ?: "0")
+            SectionCard(title = stringResource(R.string.transaction_volumes)) {
+                VolumeRow(stringResource(R.string.last_hour), exchange.volume1hrsUsd ?: "0")
                 HorizontalDivider()
-                VolumeRow("Último dia", exchange.volume1dayUsd ?: "0")
+                VolumeRow(stringResource(R.string.last_day), exchange.volume1dayUsd ?: "0")
                 HorizontalDivider()
-                VolumeRow("Último mês", exchange.volume1mthUsd ?: "0")
+                VolumeRow(stringResource(R.string.last_month), exchange.volume1mthUsd ?: "0")
             }
         }
     }
@@ -216,7 +221,5 @@ fun ExchangeDetailScreenPreview() {
         volume1dayUsd = "829.7K",
         volume1mthUsd = "192.7M"
     )
-    val navController = rememberNavController()
-
-    ExchangeDetailContentScreen(exchange = mockExchange, navController = navController)
+    ExchangeDetailContentScreen(exchange = mockExchange, intent = {})
 }

@@ -1,6 +1,7 @@
 package com.vinicius.mbtest.core
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.vinicius.mbtest.presentation.action.ExchangesAction
 import com.vinicius.mbtest.presentation.state.ExchangesViewState
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 interface IViewState
 
@@ -32,7 +34,7 @@ abstract class BaseViewModel<VS : IViewState, A : IAction, VI: IViewIntent>(init
     }
 
     protected fun sendAction(block: () -> A) {
-        _action.tryEmit(block())
+        viewModelScope.launch { _action.emit(block()) }
     }
 
     abstract fun dispatchViewIntent(intent: VI)

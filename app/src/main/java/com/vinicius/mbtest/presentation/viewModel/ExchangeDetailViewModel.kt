@@ -9,6 +9,7 @@ import com.vinicius.mbtest.presentation.state.ExchangeDetailViewState
 
 sealed class ExchangeDetailViewIntent : IViewIntent {
     data class GetExchangeById(val exchangeId: String) : ExchangeDetailViewIntent()
+    object OnBackPressed : ExchangeDetailViewIntent()
 }
 
 class ExchangeDetailViewModel(
@@ -18,10 +19,15 @@ class ExchangeDetailViewModel(
     override fun dispatchViewIntent(intent: ExchangeDetailViewIntent) {
         when (intent) {
             is ExchangeDetailViewIntent.GetExchangeById -> getExchangeById(intent.exchangeId)
+            ExchangeDetailViewIntent.OnBackPressed -> onBackPressed()
         }
     }
 
     private fun getExchangeById(exchangeId: String) {
         setState { this.copy(exchange = getExchangeByIdUseCase(exchangeId)?.toDataUi()) }
+    }
+
+    private fun onBackPressed() {
+        sendAction { ExchangeDetailAction.OnBackPressed }
     }
 }

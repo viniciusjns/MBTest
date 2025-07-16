@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">MBTest</string>
+    <string name="generic_error">An error occurred. Please try again later. Error: %s</string>
+
+    <!-- Exchange Screen -->
+    <string name="id">ID: %s</string>
+    <string name="usd_volume">USD Volume</string>
+    <string name="one_hour">1hr</string>
+
+    <!-- Exchange Details Screen -->
+    <string name="exchange_id_missing">Exchange ID is missing</string>
+    <string name="go_back">Go back</string>
+    <string name="exchange_not_found">Exchange not found</string>
+    <string name="back">Voltar</string>
+    <string name="not_available">N/A</string>
+    <string name="available_symbols">Símbolos disponíveis: %1$s</string>
+    <string name="quote_periods">Períodos de Cotação</string>
+    <string name="start">Início</string>
+    <string name="end">Fim</string>
+    <string name="order_book">Livro de Ofertas</string>
+    <string name="trades">Negociações</string>
+    <string name="transaction_volumes">Volumes de Transação</string>
+    <string name="last_hour">Última hora</string>
+    <string name="last_day">Último dia</string>
+    <string name="last_month">Último mês</string>
+
 </resources>

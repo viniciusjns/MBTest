@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.vinicius.mbtest.R
 import com.vinicius.mbtest.core.ErrorScreen
 import com.vinicius.mbtest.core.LoadingScreen
 import com.vinicius.mbtest.presentation.state.ExchangesSyncState
@@ -25,7 +27,7 @@ fun ExchangeScreen(
 
     when (val state = viewState.syncState) {
         ExchangesSyncState.Loading -> LoadingScreen()
-        is ExchangesSyncState.Error -> ErrorScreen(errorMessage = "Erro: ${state.message}") {
+        is ExchangesSyncState.Error -> ErrorScreen(errorMessage = stringResource(R.string.generic_error, state.message)) {
             viewModel.dispatchViewIntent(ExchangesViewIntent.FetchExchanges)
         }
         ExchangesSyncState.Success -> ExchangeContentScreen(viewState, navController)
