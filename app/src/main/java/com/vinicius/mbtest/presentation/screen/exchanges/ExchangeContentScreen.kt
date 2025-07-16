@@ -9,11 +9,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.vinicius.mbtest.presentation.state.ExchangesViewState
 
 @Composable
 fun ExchangeContentScreen(
-    viewState: ExchangesViewState
+    viewState: ExchangesViewState,
+    navController: NavHostController
 ) {
     LazyColumn(
         modifier = Modifier
@@ -23,7 +25,7 @@ fun ExchangeContentScreen(
         contentPadding = PaddingValues(8.dp)
     ) {
         items(viewState.exchanges, key = { it.exchangeId!! }) { exchange ->
-            ExchangeItem(exchange)
+            ExchangeItem(exchange, navController)
         }
     }
 }

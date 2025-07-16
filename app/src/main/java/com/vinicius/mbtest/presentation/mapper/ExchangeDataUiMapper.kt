@@ -1,20 +1,22 @@
 package com.vinicius.mbtest.presentation.mapper
 
+import com.vinicius.mbtest.core.formatToBrazilianDate
+import com.vinicius.mbtest.core.toMoney
 import com.vinicius.mbtest.domain.model.Exchange
 import com.vinicius.mbtest.presentation.model.ExchangeDataUi
 
 fun Exchange.toDataUi(): ExchangeDataUi = ExchangeDataUi(
-    exchangeId = this.exchangeId,
-    website = this.website,
-    name = this.name,
-    dataQuoteStart = this.dataQuoteStart,
-    dataQuoteEnd = this.dataQuoteEnd,
-    dataOrderBookStart = this.dataOrderBookStart,
-    dataOrderBookEnd = this.dataOrderBookEnd,
-    dataTradeStart = this.dataTradeStart,
-    dataTradeEnd = this.dataTradeEnd,
-    dataSymbolsCount = this.dataSymbolsCount.toString(),
-    volume1hrsUsd = this.volume1hrsUsd.toString(),
-    volume1dayUsd = this.volume1dayUsd.toString(),
-    volume1mthUsd = this.volume1mthUsd.toString()
+    exchangeId = exchangeId,
+    website = website,
+    name = name,
+    dataQuoteStart = dataQuoteStart?.formatToBrazilianDate(),
+    dataQuoteEnd = dataQuoteEnd?.formatToBrazilianDate(),
+    dataOrderBookStart = dataOrderBookStart?.formatToBrazilianDate(),
+    dataOrderBookEnd = dataOrderBookEnd?.formatToBrazilianDate(),
+    dataTradeStart = dataTradeStart?.formatToBrazilianDate(),
+    dataTradeEnd = dataTradeEnd?.formatToBrazilianDate(),
+    dataSymbolsCount = dataSymbolsCount.toString(),
+    volume1hrsUsd = volume1hrsUsd.toString().toMoney(),
+    volume1dayUsd = volume1dayUsd.toString().toMoney(),
+    volume1mthUsd = volume1mthUsd.toString().toMoney(),
 )

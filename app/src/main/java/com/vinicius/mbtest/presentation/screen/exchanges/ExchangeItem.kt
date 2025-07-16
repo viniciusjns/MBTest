@@ -1,8 +1,8 @@
 package com.vinicius.mbtest.presentation.screen.exchanges
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,14 +20,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.vinicius.mbtest.presentation.model.ExchangeDataUi
 
 @Composable
-fun ExchangeItem(exchangeDataUi: ExchangeDataUi) {
+fun ExchangeItem(
+    exchangeDataUi: ExchangeDataUi,
+    navController: NavHostController
+) {
     Card(
         modifier = Modifier
             .padding(bottom = 8.dp)
-            .clickable { Log.i("ExchangeItem", "${exchangeDataUi.name}") },
+            .clickable {
+                navController.navigate(route = "exchange_detail/${exchangeDataUi.exchangeId}") },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -77,16 +82,14 @@ fun ExchangeItem(exchangeDataUi: ExchangeDataUi) {
             Spacer(modifier = Modifier.size(8.dp))
             Text(
                 text = "USD Volume",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.secondary
+                style = MaterialTheme.typography.labelLarge
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "1hr",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.outline
+                    style = MaterialTheme.typography.labelLarge
                 )
                 Text(
                     modifier = Modifier
@@ -98,7 +101,7 @@ fun ExchangeItem(exchangeDataUi: ExchangeDataUi) {
                         .padding(horizontal = 8.dp),
                     text = exchangeDataUi.volume1hrsUsd.toString(),
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White
+                    color = if (isSystemInDarkTheme()) Color.DarkGray else Color.White
                 )
             }
         }

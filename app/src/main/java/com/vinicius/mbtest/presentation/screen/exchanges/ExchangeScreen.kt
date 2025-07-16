@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
 import com.vinicius.mbtest.core.ErrorScreen
 import com.vinicius.mbtest.core.LoadingScreen
 import com.vinicius.mbtest.presentation.state.ExchangesSyncState
@@ -13,7 +14,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExchangeScreen(
-    viewModel: ExchangesViewModel = koinViewModel()
+    viewModel: ExchangesViewModel = koinViewModel(),
+    navController: NavHostController
 ) {
     val viewState by viewModel.state.collectAsState()
 
@@ -26,6 +28,6 @@ fun ExchangeScreen(
         is ExchangesSyncState.Error -> ErrorScreen(errorMessage = "Erro: ${state.message}") {
             viewModel.dispatchViewIntent(ExchangesViewIntent.FetchExchanges)
         }
-        ExchangesSyncState.Success -> ExchangeContentScreen(viewState)
+        ExchangesSyncState.Success -> ExchangeContentScreen(viewState, navController)
     }
 }
