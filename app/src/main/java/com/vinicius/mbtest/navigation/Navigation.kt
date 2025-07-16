@@ -25,7 +25,7 @@ fun SetupNavigation(
             route = Screen.ExchangeDetailScreen.route,
             arguments = listOf(navArgument("exchangeId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val exchangeId = backStackEntry.arguments?.getString("exchangeId")
+            val exchangeId = backStackEntry.arguments?.getString("exchangeId").orEmpty()
             ExchangeDetailScreen(navController = navController, exchangeId)
         }
     }

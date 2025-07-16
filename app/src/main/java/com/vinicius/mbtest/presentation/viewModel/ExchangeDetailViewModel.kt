@@ -5,6 +5,7 @@ import com.vinicius.mbtest.core.IViewIntent
 import com.vinicius.mbtest.domain.useCase.GetExchangeByIdUseCase
 import com.vinicius.mbtest.presentation.action.ExchangeDetailAction
 import com.vinicius.mbtest.presentation.mapper.toDataUi
+import com.vinicius.mbtest.presentation.state.ExchangeDetailSyncState
 import com.vinicius.mbtest.presentation.state.ExchangeDetailViewState
 
 sealed class ExchangeDetailViewIntent : IViewIntent {
@@ -24,7 +25,13 @@ class ExchangeDetailViewModel(
     }
 
     private fun getExchangeById(exchangeId: String) {
-        setState { this.copy(exchange = getExchangeByIdUseCase(exchangeId)?.toDataUi()) }
+        val exchangeDataUi = getExchangeByIdUseCase(exchangeId)?.toDataUi()
+        val syncState = if (exchangeDataUi != null) {
+            ExchangeDetailSyncState.Success
+        } else {
+            ExchangeDetailSyncState.Error
+        }
+        setState { this.copy(exchange = exchangeDataUi, syncState = syncState) }
     }
 
     private fun onBackPressed() {

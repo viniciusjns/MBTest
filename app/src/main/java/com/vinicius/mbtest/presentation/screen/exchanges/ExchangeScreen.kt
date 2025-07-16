@@ -12,6 +12,7 @@ import com.vinicius.mbtest.R
 import com.vinicius.mbtest.core.ErrorScreen
 import com.vinicius.mbtest.core.LoadingScreen
 import com.vinicius.mbtest.presentation.state.ExchangesSyncState
+import com.vinicius.mbtest.presentation.state.ExchangesViewState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -20,11 +21,19 @@ fun ExchangeScreen(
     navController: NavHostController
 ) {
     val viewState by viewModel.state.collectAsState()
-
+    HandleState(viewModel = viewModel, viewState = viewState, navController = navController)
     LaunchedEffect(Unit) {
         viewModel.dispatchViewIntent(ExchangesViewIntent.FetchExchanges)
     }
 
+}
+
+@Composable
+private fun HandleState(
+    viewModel: ExchangesViewModel,
+    viewState: ExchangesViewState,
+    navController: NavHostController
+) {
     when (val state = viewState.syncState) {
         ExchangesSyncState.Loading -> LoadingScreen()
         is ExchangesSyncState.Error -> ErrorScreen(errorMessage = stringResource(R.string.generic_error, state.message)) {

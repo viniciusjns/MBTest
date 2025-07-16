@@ -11,8 +11,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.vinicius.mbtest.navigation.SetupNavigation
-import com.vinicius.mbtest.presentation.screen.exchangeDetail.ExchangeDetailScreen
-import com.vinicius.mbtest.presentation.screen.exchanges.ExchangeScreen
 import com.vinicius.mbtest.ui.theme.MBTestTheme
 
 class MainActivity : ComponentActivity() {

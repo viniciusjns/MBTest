@@ -88,15 +88,6 @@ fun ExchangeDetailContentScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth().padding(16.dp)
                 ) {
-//                Image(
-//                    painter = rememberAsyncImagePainter(exchange.iconUrl),
-//                    contentDescription = "Exchange Icon",
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .size(80.dp)
-//                        .padding(bottom = 12.dp)
-//                )
-
                     Text(
                         text = exchange.name ?: stringResource(R.string.not_available),
                         style = MaterialTheme.typography.headlineSmall,

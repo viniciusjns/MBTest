@@ -50,19 +50,6 @@ fun ExchangeItem(
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-//                AsyncImage(
-//                    modifier = modifier
-//                        .size(56.dp)
-//                        .clip(RoundedCornerShape(12.dp)),
-//                    model = ImageRequest.Builder(LocalContext.current)
-//                        .data(exchange.iconUrl)
-//                        .crossfade(true)
-//                        .build(),
-//                    contentScale = ContentScale.Crop,
-//                    placeholder = painterResource(R.drawable.illu_placeholder),
-//                    error = painterResource(R.drawable.illu_placeholder),
-//                    contentDescription = null,
-//                )
                 Column(
                     modifier = Modifier.weight(1f),
                 ) {
