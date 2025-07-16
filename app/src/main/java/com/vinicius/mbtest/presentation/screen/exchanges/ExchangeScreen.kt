@@ -1,4 +1,4 @@
-package com.vinicius.mbtest.presentation.screen
+package com.vinicius.mbtest.presentation.screen.exchanges
 
 import ExchangesViewIntent
 import ExchangesViewModel
@@ -26,6 +26,6 @@ fun ExchangeScreen(
         is ExchangesSyncState.Error -> ErrorScreen(errorMessage = "Erro: ${state.message}") {
             viewModel.dispatchViewIntent(ExchangesViewIntent.FetchExchanges)
         }
-        ExchangesSyncState.Success -> ContentScreen(viewState)
+        ExchangesSyncState.Success -> ExchangeContentScreen(viewState)
     }
 }

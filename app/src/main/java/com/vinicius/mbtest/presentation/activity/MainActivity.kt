@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import com.vinicius.mbtest.presentation.screen.ExchangeScreen
+import com.vinicius.mbtest.presentation.screen.exchangeDetail.ExchangeDetailScreen
+import com.vinicius.mbtest.presentation.screen.exchanges.ExchangeScreen
 import com.vinicius.mbtest.ui.theme.MBTestTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     ExchangeScreen()
+//                    ExchangeDetailScreen("0")
                 }
             }
         }

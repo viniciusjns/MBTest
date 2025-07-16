@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ErrorScreen(
     errorMessage: String,
-    onClickRetry: () -> Unit
+    errorButtonText: String = "Tentar novamente",
+    onClickRetry: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -28,7 +29,7 @@ fun ErrorScreen(
             modifier = Modifier.padding(16.dp)
         )
         Button(onClick = onClickRetry) { 
-            Text(text = "Tentar novamente")
+            Text(text = errorButtonText)
         }
     }
 }

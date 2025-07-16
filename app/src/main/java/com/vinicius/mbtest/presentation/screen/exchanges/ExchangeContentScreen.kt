@@ -1,4 +1,4 @@
-package com.vinicius.mbtest.presentation.screen
+package com.vinicius.mbtest.presentation.screen.exchanges
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.vinicius.mbtest.presentation.state.ExchangesViewState
 
 @Composable
-fun ContentScreen(viewState: ExchangesViewState) {
+fun ExchangeContentScreen(
+    viewState: ExchangesViewState
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

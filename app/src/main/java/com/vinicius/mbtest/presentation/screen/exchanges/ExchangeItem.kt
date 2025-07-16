@@ -1,7 +1,6 @@
-package com.vinicius.mbtest.presentation.screen
+package com.vinicius.mbtest.presentation.screen.exchanges
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,10 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.vinicius.mbtest.domain.model.Exchange
 import com.vinicius.mbtest.presentation.model.ExchangeDataUi
 
 @Composable

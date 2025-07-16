@@ -1,9 +1,9 @@
 package com.vinicius.mbtest.domain.useCase
 
-import com.vinicius.mbtest.domain.repository.GetExchangesRepository
+import com.vinicius.mbtest.domain.repository.ExchangesRepository
 
 class GetExchangesUseCaseImpl(
-    private val repository: GetExchangesRepository
+    private val repository: ExchangesRepository
 ) : GetExchangesUseCase {
 
     override operator fun invoke() = repository.getExchanges()

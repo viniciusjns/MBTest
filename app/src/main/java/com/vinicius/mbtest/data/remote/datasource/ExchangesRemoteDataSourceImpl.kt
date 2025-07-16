@@ -3,28 +3,26 @@ package com.vinicius.mbtest.data.remote.datasource
 import android.util.Log
 import com.vinicius.mbtest.data.remote.api.CoinService
 import com.vinicius.mbtest.data.remote.model.ExchangeResponse
-import com.vinicius.mbtest.domain.model.Exchange
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.update
 
-class GetExchangesRemoteDataSourceImpl(
+class ExchangesRemoteDataSourceImpl(
     private val service: CoinService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : GetExchangesRemoteDataSource {
+) : ExchangesRemoteDataSource {
 
     override fun getExchanges(): Flow<List<ExchangeResponse>> = flow {
         Log.i("GetExchangesRemoteDataSourceImpl", "Fetching exchanges...")
 //        emit(service.getExchanges())
 
 //        kotlinx.coroutines.delay(1000L)
-//        emit(mockExchanges())
+        emit(mockExchanges())
 
 //        kotlinx.coroutines.delay(1000L)
-        emit(throw Exception())
+//        emit(throw Exception())
     }.flowOn(dispatcher)
 
     private fun mockExchanges(): List<ExchangeResponse> {

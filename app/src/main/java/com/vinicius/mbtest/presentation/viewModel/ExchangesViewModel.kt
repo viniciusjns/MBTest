@@ -1,4 +1,3 @@
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vinicius.mbtest.core.BaseViewModel
 import com.vinicius.mbtest.core.IViewIntent
