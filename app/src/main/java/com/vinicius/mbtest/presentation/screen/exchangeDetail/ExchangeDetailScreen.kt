@@ -21,12 +21,11 @@ fun ExchangeDetailScreen(
     val viewState = viewModel.state.collectAsState()
 
     if (exchangeId == null) {
-        ErrorScreen(
+        ShowErrorScreen(
+            viewModel = viewModel,
             errorMessage = stringResource(R.string.exchange_id_missing),
             errorButtonText = stringResource(R.string.go_back)
-        ) {
-            navController.popBackStack()
-        }
+        )
         return
     }
     LaunchedEffect(exchangeId) {
@@ -46,11 +45,24 @@ fun ExchangeDetailScreen(
             intent = viewModel::dispatchViewIntent
         )
     } ?: run {
-        ErrorScreen(
+        ShowErrorScreen(
+            viewModel = viewModel,
             errorMessage = stringResource(R.string.exchange_not_found),
             errorButtonText = stringResource(R.string.go_back)
-        ) {
-            navController.popBackStack()
-        }
+        )
+    }
+}
+
+@Composable
+private fun ShowErrorScreen(
+    viewModel: ExchangeDetailViewModel,
+    errorMessage: String,
+    errorButtonText: String
+) {
+    ErrorScreen(
+        errorMessage = errorMessage,
+        errorButtonText = errorButtonText
+    ) {
+        viewModel.dispatchViewIntent(ExchangeDetailViewIntent.OnBackPressed)
     }
 }
