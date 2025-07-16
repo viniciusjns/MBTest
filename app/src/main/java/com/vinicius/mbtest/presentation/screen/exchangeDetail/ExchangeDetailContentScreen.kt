@@ -16,12 +16,20 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,36 +37,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.vinicius.mbtest.presentation.model.ExchangeDataUi
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeDetailContentScreen(
     exchange: ExchangeDataUi,
+    navController: NavController,
     scrollState: ScrollState = rememberScrollState()
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .verticalScroll(scrollState)
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Header com ícone e nome
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            tonalElevation = 4.dp,
-            color = MaterialTheme.colorScheme.surfaceVariant,
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp)
+                .fillMaxSize()
+                .padding(padding)
+                .navigationBarsPadding()
+                .verticalScroll(scrollState)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Card(
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
             ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                ) {
 //                Image(
 //                    painter = rememberAsyncImagePainter(exchange.iconUrl),
 //                    contentDescription = "Exchange Icon",
@@ -68,52 +92,54 @@ fun ExchangeDetailContentScreen(
 //                        .padding(bottom = 12.dp)
 //                )
 
-                Text(
-                    text = exchange.name ?: "N/A",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
+                    Text(
+                        text = exchange.name ?: "N/A",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
 
-                Text(
-                    text = exchange.website ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center
-                )
+                    Text(
+                        text = exchange.website ?: "",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            Text(
+                text = "Símbolos disponíveis: ${exchange.dataSymbolsCount ?: "0"}",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            SectionCard(title = "Períodos de Cotação") {
+                InfoRow("Início", exchange.dataQuoteStart ?: "N/A")
+                InfoRow("Fim", exchange.dataQuoteEnd ?: "N/A")
+            }
+
+            SectionCard(title = "Livro de Ofertas") {
+                InfoRow("Início", exchange.dataOrderBookStart ?: "N/A")
+                InfoRow("Fim", exchange.dataOrderBookEnd ?: "N/A")
+            }
+
+            SectionCard(title = "Negociações") {
+                InfoRow("Início", exchange.dataTradeStart ?: "N/A")
+                InfoRow("Fim", exchange.dataTradeEnd ?: "N/A")
+            }
+
+            SectionCard(title = "Volumes de Transação") {
+                VolumeRow("Última hora", exchange.volume1hrsUsd ?: "0")
+                HorizontalDivider()
+                VolumeRow("Último dia", exchange.volume1dayUsd ?: "0")
+                HorizontalDivider()
+                VolumeRow("Último mês", exchange.volume1mthUsd ?: "0")
             }
         }
-
-        SectionCard(title = "Períodos de Cotação") {
-            InfoRow("Início", exchange.dataQuoteStart ?: "N/A")
-            InfoRow("Fim", exchange.dataQuoteEnd ?: "N/A")
-        }
-
-        SectionCard(title = "Livro de Ofertas") {
-            InfoRow("Início", exchange.dataOrderBookStart ?: "N/A")
-            InfoRow("Fim", exchange.dataOrderBookEnd ?: "N/A")
-        }
-
-        SectionCard(title = "Negociações") {
-            InfoRow("Início", exchange.dataTradeStart ?: "N/A")
-            InfoRow("Fim", exchange.dataTradeEnd ?: "N/A")
-        }
-
-        SectionCard(title = "Volumes de Transação") {
-            VolumeRow("Última hora", exchange.volume1hrsUsd ?: "0")
-            HorizontalDivider()
-            VolumeRow("Último dia", exchange.volume1dayUsd ?: "0")
-            HorizontalDivider()
-            VolumeRow("Último mês", exchange.volume1mthUsd ?: "0")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Símbolos disponíveis: ${exchange.dataSymbolsCount ?: "0"}",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
-        )
     }
+
 }
 
 @Composable
@@ -190,6 +216,7 @@ fun ExchangeDetailScreenPreview() {
         volume1dayUsd = "829.7K",
         volume1mthUsd = "192.7M"
     )
+    val navController = rememberNavController()
 
-    ExchangeDetailContentScreen(exchange = mockExchange)
+    ExchangeDetailContentScreen(exchange = mockExchange, navController = navController)
 }

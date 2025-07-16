@@ -43,6 +43,6 @@ class ExchangesRemoteDataSourceImpl(
                 volume1mthUsd = if (i % 3 == 1) 3000000.0 else if (i % 3 == 2) 1500000.0 else null
             )
         }
-        return exchanges
+        return exchanges.filter { it.volume1dayUsd != null }
     }
 }

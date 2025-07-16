@@ -11,10 +11,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExchangeDetailScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    exchangeId: String? = null
 ) {
-    val args = navController.currentBackStackEntry?.arguments
-    val exchangeId = args?.getString("exchangeId")
     val viewModel: ExchangeDetailViewModel = koinViewModel()
     val viewState = viewModel.state.collectAsState()
 
@@ -33,6 +32,7 @@ fun ExchangeDetailScreen(
 
     viewState.value.exchange?.let {
         ExchangeDetailContentScreen(
+            navController = navController,
             exchange = it
         )
     } ?: run {

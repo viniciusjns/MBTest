@@ -24,8 +24,9 @@ fun SetupNavigation(
         composable(
             route = Screen.ExchangeDetailScreen.route,
             arguments = listOf(navArgument("exchangeId") { type = NavType.StringType })
-        ) {
-            ExchangeDetailScreen(navController = navController)
+        ) { backStackEntry ->
+            val exchangeId = backStackEntry.arguments?.getString("exchangeId")
+            ExchangeDetailScreen(navController = navController, exchangeId)
         }
     }
 }
