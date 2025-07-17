@@ -1,8 +1,8 @@
 package com.vinicius.mbtest
 
 import android.app.Application
-import com.vinicius.mbtest.di.exchangeModule
 import com.vinicius.mbtest.di.networkModule
+import com.vinicius.mbtest.features.exchanges.impl.di.exchangeModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

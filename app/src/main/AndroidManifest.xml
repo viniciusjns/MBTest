@@ -16,7 +16,7 @@
         android:theme="@style/Theme.MBTest"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.activity.MainActivity"
+            android:name=".features.exchanges.impl.presentation.activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MBTest"
             android:windowSoftInputMode="adjustResize">

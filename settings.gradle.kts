@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "MBTest"
 include(":app")
- 
+include(":core")
+include(":features")
+include(":features:exchanges")
+include(":features:exchanges:public")
+include(":features:exchanges:impl")
