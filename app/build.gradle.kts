@@ -1,56 +1,34 @@
+import com.vinicius.mbtest.buildsrc.Modules
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
+apply("$rootDir/plugins/android.gradle")
+
 android {
-    namespace = "com.vinicius.mbtest"
-    compileSdk = 35
-
-    defaultConfig {
-        applicationId = "com.vinicius.mbtest"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
     }
 }
 
 dependencies {
 
     // modules
-    implementation(project(":core"))
-    implementation(project(":features:exchanges:public"))
-    implementation(project(":features:exchanges:impl"))
+    implementation(project(Modules.CORE))
+    implementation(project(Modules.EXCHANGES_PUBLIC))
+    implementation(project(Modules.EXCHANGES_IMPL))
 
     // default
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
@@ -64,8 +42,6 @@ dependencies {
     // koin
     implementation(libs.koin)
     implementation(libs.koin.compose)
-
-    implementation(libs.androidx.compose.navigation)
 
     testImplementation(libs.kotlin.test)
     testImplementation(libs.junit)

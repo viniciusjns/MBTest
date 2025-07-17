@@ -1,0 +1,33 @@
+android {
+    namespace = Config.NAMESPACE
+    compileSdk = Config.COMPILE_SDK
+
+    defaultConfig {
+        applicationId = Config.APPLICATION_ID
+        minSdk = Config.MIN_SDK
+        targetSdk = Config.TARGET_SDK
+        versionCode = Config.VERSION_CODE
+        versionName = Config.VERSION_NAME
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Config.JAVA_VERSION
+        targetCompatibility = Config.JAVA_VERSION
+    }
+    kotlinOptions {
+        jvmTarget = Config.JVM_TARGET_VERSION
+    }
+    buildFeatures {
+        compose = true
+    }
+}
