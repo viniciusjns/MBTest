@@ -1,6 +1,5 @@
 package com.vinicius.mbtest.features.exchanges.impl.data.local.datasource
 
-import com.vinicius.mbtest.features.exchanges.data.local.datasource.ExchangesLocalDataSource
 import com.vinicius.mbtest.features.exchanges.data.remote.model.ExchangeResponse
 
 class ExchangesLocalDataSourceImpl : ExchangesLocalDataSource {

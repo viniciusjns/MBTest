@@ -1,5 +1,3 @@
-import com.vinicius.mbtest.buildsrc.Modules
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -9,6 +7,10 @@ plugins {
 apply("$rootDir/plugins/android.gradle")
 
 android {
+    defaultConfig {
+        applicationId = Config.APPLICATION_ID
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true

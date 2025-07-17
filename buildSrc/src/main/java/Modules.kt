@@ -1,5 +1,3 @@
-package com.vinicius.mbtest.buildsrc
-
 object Modules {
 
     const val CORE = ":core"

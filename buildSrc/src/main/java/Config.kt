@@ -1,5 +1,3 @@
-package com.vinicius.mbtest.buildsrc
-
 import org.gradle.api.JavaVersion
 
 object Config {

@@ -4,32 +4,15 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+apply("$rootDir/plugins/android.gradle")
+
 android {
-    namespace = "com.vinicius.mbtest.features.exchanges.impl"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
+    namespace = "${Config.NAMESPACE}.features.exchanges.impl"
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -38,8 +21,8 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
-    implementation(project(":features:exchanges:public"))
+    implementation(project(Modules.CORE))
+    implementation(project(Modules.EXCHANGES_PUBLIC))
 
     // default
     implementation(libs.androidx.core.ktx)

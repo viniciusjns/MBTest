@@ -1,9 +1,9 @@
 package com.vinicius.mbtest.features.exchanges.impl.di
 
 import ExchangesViewModel
-import com.vinicius.mbtest.features.exchanges.data.local.datasource.ExchangesLocalDataSource
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.api.CoinService
 import com.vinicius.mbtest.features.exchanges.domain.repository.ExchangesRepository
+import com.vinicius.mbtest.features.exchanges.impl.data.local.datasource.ExchangesLocalDataSource
 import com.vinicius.mbtest.features.exchanges.impl.data.local.datasource.ExchangesLocalDataSourceImpl
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.datasource.ExchangesRemoteDataSourceImpl
 import com.vinicius.mbtest.features.exchanges.impl.data.repository.ExchangesRepositoryImpl
