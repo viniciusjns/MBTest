@@ -28,21 +28,22 @@ class ExchangesRemoteDataSourceImpl(
     private fun mockExchanges(): List<ExchangeResponse> {
         val exchanges = (1..20).map { i ->
             ExchangeResponse(
-                exchangeId = i.toString(),
-                website = "https://exchange${i % 3 + 1}.com",
+                exchangeId = "exch_$i",
+                website = "https://exchange$i.com",
                 name = "Exchange $i",
-                dataQuoteStart = if (i % 3 == 1) "2020-01-01" else if (i % 3 == 2) "2019-06-01" else null,
-                dataQuoteEnd = if (i % 3 == 1) "2024-01-01" else if (i % 3 == 2) "2024-06-01" else null,
-                dataOrderBookStart = if (i % 3 == 1) "2020-01-01" else if (i % 3 == 2) "2019-06-01" else null,
-                dataOrderBookEnd = if (i % 3 == 1) "2024-01-01" else if (i % 3 == 2) "2024-06-01" else null,
-                dataTradeStart = if (i % 3 == 1) "2020-01-01" else if (i % 3 == 2) "2019-06-01" else null,
-                dataTradeEnd = if (i % 3 == 1) "2024-01-01" else if (i % 3 == 2) "2024-06-01" else null,
-                dataSymbolsCount = if (i % 3 == 1) 100 else if (i % 3 == 2) 50 else null,
-                volume1hrsUsd = if (i % 3 == 1) 5000.0 else if (i % 3 == 2) 2500.0 else null,
-                volume1dayUsd = if (i % 3 == 1) 120000.0 else if (i % 3 == 2) 60000.0 else null,
-                volume1mthUsd = if (i % 3 == 1) 3000000.0 else if (i % 3 == 2) 1500000.0 else null
+                dataQuoteStart = "2020-01-01",
+                dataQuoteEnd = "2025-01-01",
+                dataOrderBookStart = "2020-02-01",
+                dataOrderBookEnd = "2025-02-01",
+                dataTradeStart = "2020-03-01",
+                dataTradeEnd = "2025-03-01",
+                dataSymbolsCount = i * 100,
+                volume1hrsUsd = i * 1000.0,
+                volume1dayUsd = i * 5000.0,
+                volume1mthUsd = i * 20000.0
             )
         }
+
         return exchanges.filter { it.volume1dayUsd != null }
     }
 }
