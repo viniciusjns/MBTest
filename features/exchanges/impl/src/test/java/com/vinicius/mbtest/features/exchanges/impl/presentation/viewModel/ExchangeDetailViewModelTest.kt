@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.vinicius.mbtest.core.test.MainCoroutineTestRule
 import com.vinicius.mbtest.features.exchanges.domain.useCase.GetExchangeByIdUseCase
+import com.vinicius.mbtest.features.exchanges.impl.presentation.action.ExchangeDetailAction
 import com.vinicius.mbtest.features.exchanges.impl.presentation.mapper.toDataUi
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangeDetailSyncState
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangeDetailViewState
@@ -33,11 +34,12 @@ class ExchangeDetailViewModelTest {
         // Given
         val selectedExchange = exchangeStub()
         val exchangeId = selectedExchange.exchangeId
-
         coEvery { getExchangeByIdUseCase(exchangeId!!) } returns selectedExchange
 
+        // When
         viewModel.dispatchViewIntent(ExchangeDetailViewIntent.GetExchangeById(exchangeId!!))
 
+        // Then
         viewModel.state.test {
             assertEquals(
                 ExchangeDetailViewState(
@@ -46,6 +48,20 @@ class ExchangeDetailViewModelTest {
                 ),
                 awaitItem()
             )
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should call OnBackPressed`() = runTest {
+        // Given
+
+        // When
+        viewModel.dispatchViewIntent(ExchangeDetailViewIntent.OnBackPressed)
+
+        // Then
+        viewModel.action.test {
+            assertEquals(ExchangeDetailAction.OnBackPressed, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }

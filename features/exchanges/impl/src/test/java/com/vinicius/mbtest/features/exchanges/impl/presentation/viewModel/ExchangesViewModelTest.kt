@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.vinicius.mbtest.core.test.MainCoroutineTestRule
 import com.vinicius.mbtest.features.exchanges.domain.useCase.GetExchangesUseCase
+import com.vinicius.mbtest.features.exchanges.impl.presentation.action.ExchangesAction
 import com.vinicius.mbtest.features.exchanges.impl.presentation.mapper.toDataUi
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangesSyncState
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangesViewState
@@ -67,6 +68,22 @@ class ExchangesViewModelTest {
         viewModel.state.test {
             assertEquals(ExchangesViewState(syncState = ExchangesSyncState.Loading), awaitItem())
             assertEquals(ExchangesViewState(syncState = ExchangesSyncState.Error("Network error")), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should navigate to details when exchange clicked`() = runTest {
+        // Given
+        val exchangeId = "12345"
+        val expectedAction = ExchangesAction.NavigateToDetails(exchangeId)
+
+        // When
+        viewModel.dispatchViewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId))
+
+        // Then
+        viewModel.action.test {
+            assertEquals(expectedAction, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }

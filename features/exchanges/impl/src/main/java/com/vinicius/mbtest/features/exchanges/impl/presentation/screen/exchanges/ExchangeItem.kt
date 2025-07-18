@@ -1,5 +1,6 @@
 package com.vinicius.mbtest.features.exchanges.impl.presentation.screen.exchanges
 
+import ExchangesViewIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -21,21 +22,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.vinicius.mbtest.features.exchanges.impl.R
-import com.vinicius.mbtest.features.exchanges.impl.navigation.Screen
 import com.vinicius.mbtest.features.exchanges.impl.presentation.model.ExchangeDataUi
 
 @Composable
 fun ExchangeItem(
     exchangeDataUi: ExchangeDataUi,
-    navController: NavHostController
+    viewIntent: (ExchangesViewIntent) -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(bottom = 8.dp)
             .clickable {
-                navController.navigate(route = Screen.ExchangeDetailScreen.passExchangeId(exchangeId = exchangeDataUi.exchangeId!!)) },
+                viewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId = exchangeDataUi.exchangeId!!))
+            },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,

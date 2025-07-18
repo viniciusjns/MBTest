@@ -33,6 +33,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.test)
     implementation(libs.junit)
+    implementation(libs.mockwebserver)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.converter)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

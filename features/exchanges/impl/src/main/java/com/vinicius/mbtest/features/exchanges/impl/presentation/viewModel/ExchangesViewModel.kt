@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 sealed class ExchangesViewIntent : IViewIntent {
     object FetchExchanges : ExchangesViewIntent()
+    data class OnExchangeClicked(val exchangeId: String) : ExchangesViewIntent()
 }
 
 class ExchangesViewModel(
@@ -20,13 +21,14 @@ class ExchangesViewModel(
     override fun dispatchViewIntent(intent: ExchangesViewIntent) {
         when (intent) {
             is ExchangesViewIntent.FetchExchanges -> fetchExchanges()
+            is ExchangesViewIntent.OnExchangeClicked -> navigateToDetails(intent.exchangeId)
             else -> { throw RuntimeException("ViewIntent not mapped") }
         }
     }
 
     private fun fetchExchanges() {
         viewModelScope.launch {
-            setState { this.copy(syncState = ExchangesSyncState.Loading) } // Set loading state
+            setState { this.copy(syncState = ExchangesSyncState.Loading) }
 
             getExchangesUseCase()
                 .catch { exception ->
@@ -43,5 +45,9 @@ class ExchangesViewModel(
                     }
                 }
         }
+    }
+
+    private fun navigateToDetails(exchangeId: String) {
+        sendAction { ExchangesAction.NavigateToDetails(exchangeId = exchangeId) }
     }
 }

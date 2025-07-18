@@ -17,6 +17,12 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests.apply {
+            isReturnDefaultValues = true
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -50,6 +56,7 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockwebserver)
 
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)

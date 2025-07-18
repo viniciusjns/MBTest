@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.vinicius.mbtest.core.ui.theme.MBTestTheme
+import com.vinicius.mbtest.features.exchanges.impl.navigation.ScreenRoutes
 import com.vinicius.mbtest.features.exchanges.impl.navigation.SetupNavigation
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     SetupNavigation(
                         navController = navController,
-                        startDestination = "exchange_screen"
+                        startDestination = ScreenRoutes.ExchangeScreenRoute.route
                     )
                 }
             }
