@@ -24,7 +24,11 @@ class ExchangesRepositoryImpl(
                 response.map { it.toDomain() }
             }
             .catch {
-                emit(localDataSource.getExchanges().map { it.toDomain() })
+                val localExchanges = localDataSource.getExchanges()
+                if (localExchanges.isEmpty()) {
+                    throw it
+                }
+                emit(localExchanges.map { exchanges -> exchanges.toDomain() })
             }
     }
 

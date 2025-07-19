@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,14 +11,36 @@ plugins {
 apply("$rootDir/plugins/android.gradle")
 
 android {
+    namespace = Config.NAMESPACE
+
     defaultConfig {
         applicationId = Config.APPLICATION_ID
+
+        val properties = Properties().apply {
+            rootProject.file("local.properties").reader().use(::load)
+        }
+        val apiKey = properties["COIN_API_KEY"] as String
+        buildConfigField(
+            type = "String",
+            name = "COIN_API_KEY",
+            value = "\"$apiKey\""
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "BASE_URL",
+            value = "\"http://rest.coinapi.io/\""
+        )
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -41,6 +66,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson.converter)
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     // koin
     implementation(libs.koin)

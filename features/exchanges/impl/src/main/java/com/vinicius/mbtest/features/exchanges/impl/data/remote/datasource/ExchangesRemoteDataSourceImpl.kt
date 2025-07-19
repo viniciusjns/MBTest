@@ -1,7 +1,5 @@
 package com.vinicius.mbtest.features.exchanges.impl.data.remote.datasource
 
-import android.util.Log
-import com.vinicius.mbtest.core.extensions.parseHttpError
 import com.vinicius.mbtest.features.exchanges.data.remote.model.ExchangeResponse
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.api.CoinService
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,10 +15,9 @@ class ExchangesRemoteDataSourceImpl(
 ) : ExchangesRemoteDataSource {
 
     override fun getExchanges(): Flow<List<ExchangeResponse>> = flow {
-        emit(service.getExchanges())
+        emit(service.getExchanges().getValidExchanges())
     }.catch {
-        // aqui sim captura falha do service
-        throw it // repropaga pro bloco catch do repositório
+        throw it
     }.flowOn(dispatcher)
 
     private fun List<ExchangeResponse>.getValidExchanges() = this.filter {
