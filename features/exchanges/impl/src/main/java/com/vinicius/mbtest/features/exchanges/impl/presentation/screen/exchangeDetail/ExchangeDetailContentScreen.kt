@@ -29,6 +29,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import com.vinicius.mbtest.features.exchanges.impl.R
 import com.vinicius.mbtest.features.exchanges.impl.presentation.model.ExchangeDataUi
 import com.vinicius.mbtest.features.exchanges.impl.presentation.viewModel.ExchangeDetailViewIntent
+
+const val BACK_TEST_TAG = "BACK_TEST_TAG"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +53,10 @@ fun ExchangeDetailContentScreen(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { intent(ExchangeDetailViewIntent.OnBackPressed) }) {
+                    IconButton(
+                        modifier = Modifier.testTag(BACK_TEST_TAG),
+                        onClick = { intent(ExchangeDetailViewIntent.OnBackPressed) }
+                    ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back)

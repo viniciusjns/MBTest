@@ -19,11 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.vinicius.mbtest.features.exchanges.impl.R
 import com.vinicius.mbtest.features.exchanges.impl.presentation.model.ExchangeDataUi
+
+const val EXCHANGES_ITEM_TEST_TAG = "EXCHANGES_ITEM_TEST_TAG"
 
 @Composable
 fun ExchangeItem(
@@ -32,6 +35,7 @@ fun ExchangeItem(
 ) {
     Card(
         modifier = Modifier
+            .testTag("${EXCHANGES_ITEM_TEST_TAG}_${exchangeDataUi.exchangeId}")
             .padding(bottom = 8.dp)
             .clickable {
                 viewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId = exchangeDataUi.exchangeId!!))

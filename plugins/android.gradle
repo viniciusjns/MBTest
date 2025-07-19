@@ -26,4 +26,14 @@ android {
     kotlinOptions {
         jvmTarget = Config.JVM_TARGET_VERSION
     }
+    packagingOptions {
+        resources {
+            excludes += [
+                    "/META-INF/{AL2.0,LGPL2.1}",
+                    "/META-INF/DEPENDENCIES",
+                    "/META-INF/LICENSE-notice.md",
+                    "/META-INF/LICENSE.md",
+            ]
+        }
+    }
 }
