@@ -17,4 +17,5 @@ local.properties
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .kotlin/
+.kotlin/errors
 .idea/
