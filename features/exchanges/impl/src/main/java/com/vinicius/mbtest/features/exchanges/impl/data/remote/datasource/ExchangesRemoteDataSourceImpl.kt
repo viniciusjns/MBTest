@@ -23,10 +23,10 @@ class ExchangesRemoteDataSourceImpl(
 //        emit(service.getExchanges())
 
 //        kotlinx.coroutines.delay(1000L)
-        emit(mockExchanges())
+//        emit(mockExchanges())
 
 //        kotlinx.coroutines.delay(1000L)
-//        emit(throw Exception())
+        emit(throw Exception())
     }.parseHttpError().flowOn(dispatcher)
 
     private fun mockExchanges(): List<ExchangeResponse> = (1..20).map { i ->

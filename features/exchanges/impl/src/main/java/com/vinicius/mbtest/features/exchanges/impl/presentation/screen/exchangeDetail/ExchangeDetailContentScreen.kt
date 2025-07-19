@@ -1,5 +1,6 @@
 package com.vinicius.mbtest.features.exchanges.impl.presentation.screen.exchangeDetail
 
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -55,7 +56,10 @@ fun ExchangeDetailContentScreen(
                 navigationIcon = {
                     IconButton(
                         modifier = Modifier.testTag(BACK_TEST_TAG),
-                        onClick = { intent(ExchangeDetailViewIntent.OnBackPressed) }
+                        onClick = {
+                            Log.i("ExchangeDetailScreen", "Chamou o OnBackPressed")
+                            intent(ExchangeDetailViewIntent.OnBackPressed)
+                        }
                     ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,

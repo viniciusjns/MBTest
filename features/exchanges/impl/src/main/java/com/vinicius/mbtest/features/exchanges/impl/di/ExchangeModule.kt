@@ -3,6 +3,7 @@ package com.vinicius.mbtest.features.exchanges.impl.di
 import ExchangesViewModel
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.api.CoinService
 import com.vinicius.mbtest.features.exchanges.domain.repository.ExchangesRepository
+import com.vinicius.mbtest.features.exchanges.impl.data.local.database.ExchangeDatabase
 import com.vinicius.mbtest.features.exchanges.impl.data.local.datasource.ExchangesLocalDataSource
 import com.vinicius.mbtest.features.exchanges.impl.data.local.datasource.ExchangesLocalDataSourceImpl
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.datasource.ExchangesRemoteDataSourceImpl
@@ -41,7 +42,9 @@ val exchangeModule = module {
     }
 
     single<ExchangesLocalDataSource> {
-        ExchangesLocalDataSourceImpl()
+        ExchangesLocalDataSourceImpl(
+            exchangeDAO = get<ExchangeDatabase>().exchangeDao()
+        )
     }
 }
 

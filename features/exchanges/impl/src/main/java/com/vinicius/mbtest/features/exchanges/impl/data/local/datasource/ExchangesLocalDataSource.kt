@@ -1,11 +1,11 @@
 package com.vinicius.mbtest.features.exchanges.impl.data.local.datasource
 
-import com.vinicius.mbtest.features.exchanges.data.remote.model.ExchangeResponse
+import com.vinicius.mbtest.features.exchanges.data.local.model.ExchangeEntity
 
 interface ExchangesLocalDataSource {
 
-    fun getExchanges(): List<ExchangeResponse>
-    suspend fun addExchanges(exchanges: List<ExchangeResponse>)
-    fun getExchangeById(id: String): ExchangeResponse?
+    suspend fun getExchanges(): List<ExchangeEntity>
+    suspend fun addExchanges(exchanges: List<ExchangeEntity>)
+    suspend fun getExchangeById(id: String): ExchangeEntity?
 
 }

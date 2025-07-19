@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 apply("$rootDir/plugins/android.gradle")
@@ -39,6 +40,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.navigation)
 
     // retrofit
     implementation(libs.retrofit)
@@ -49,7 +51,9 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.koin.compose)
 
-    implementation(libs.androidx.compose.navigation)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

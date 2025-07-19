@@ -1,6 +1,7 @@
 package com.vinicius.mbtest
 
 import android.app.Application
+import com.vinicius.mbtest.di.databaseModule
 import com.vinicius.mbtest.di.networkModule
 import com.vinicius.mbtest.features.exchanges.impl.di.exchangeModule
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +17,13 @@ class MbTestApplication : Application() {
         startKoin {
             androidLogger(level = Level.DEBUG)
             androidContext(this@MbTestApplication)
-            modules(networkModule, exchangeModule)
+            modules(getKoinModules())
         }
     }
+
+    private fun getKoinModules() = listOf(
+        networkModule,
+        databaseModule,
+        exchangeModule
+    )
 }

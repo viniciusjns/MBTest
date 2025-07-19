@@ -1,20 +1,18 @@
 package com.vinicius.mbtest.features.exchanges.impl.data.local.datasource
 
-import com.vinicius.mbtest.features.exchanges.data.remote.model.ExchangeResponse
+import com.vinicius.mbtest.features.exchanges.data.local.model.ExchangeEntity
+import com.vinicius.mbtest.features.exchanges.impl.data.local.dao.ExchangeDAO
 
-class ExchangesLocalDataSourceImpl : ExchangesLocalDataSource {
+class ExchangesLocalDataSourceImpl(
+    private val exchangeDAO: ExchangeDAO
+) : ExchangesLocalDataSource {
 
-    private val exchanges = mutableListOf<ExchangeResponse>()
+    override suspend fun getExchanges(): List<ExchangeEntity> =
+        exchangeDAO.getAllExchanges()
 
-    override fun getExchanges(): List<ExchangeResponse> {
-        return exchanges
-    }
+    override suspend fun addExchanges(exchanges: List<ExchangeEntity>) =
+        exchanges.forEach { exchangeDAO.insertExchange(it) }
 
-    override suspend fun addExchanges(exchanges: List<ExchangeResponse>) {
-        this.exchanges.addAll(exchanges)
-    }
-
-    override fun getExchangeById(id: String): ExchangeResponse? {
-        return exchanges.find { it.exchangeId == id }
-    }
+    override suspend fun getExchangeById(id: String): ExchangeEntity? =
+        exchangeDAO.getExchangeById(id = id)
 }

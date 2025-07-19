@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExchangesRepository {
     fun getExchanges(): Flow<List<Exchange>>
-    fun getExchangeById(exchangeId: String): Exchange?
+    suspend fun getExchangeById(exchangeId: String): Exchange?
 }
