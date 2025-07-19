@@ -19,7 +19,8 @@ android {
         val properties = Properties().apply {
             rootProject.file("local.properties").reader().use(::load)
         }
-        val apiKey = properties["COIN_API_KEY"] as String
+        val apiKey = properties["COIN_API_KEY"] as String?
+            ?: throw GradleException("COIN_API_KEY not found in local.properties")
         buildConfigField(
             type = "String",
             name = "COIN_API_KEY",
