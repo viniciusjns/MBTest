@@ -120,7 +120,7 @@ class ExchangesScreenTest {
     @Test
     fun should_navigate_to_exchangeDetails_when_exchangeItem_is_clicked() {
         val exchanges = exchangesStub()
-        val exchangeId = exchanges.first().exchangeId!!
+        val exchangeId = exchanges.first().exchangeId
         mockState.update { it.copy(exchanges = exchanges, syncState = ExchangesSyncState.Success) }
 
         every {
@@ -145,7 +145,7 @@ class ExchangesScreenTest {
     }
 
     companion object {
-        private val mockRepo: ExchangesRepository = mockk()
+        private val mockRepo: ExchangesRepository = mockk(relaxed = true)
         private val mockViewModel: ExchangeDetailViewModel = mockk(relaxed = true)
         private val module = module {
             single { mockRepo }

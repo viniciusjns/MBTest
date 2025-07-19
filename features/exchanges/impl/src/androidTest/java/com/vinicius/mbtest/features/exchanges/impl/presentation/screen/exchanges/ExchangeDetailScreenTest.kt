@@ -52,17 +52,17 @@ class ExchangeDetailScreenTest {
         val exchange = exchangeStub()
         mockState.update { it.copy(exchange = exchange, syncState = ExchangeDetailSyncState.Success) }
         every {
-            mockViewModel.dispatchViewIntent(ExchangeDetailViewIntent.GetExchangeById(exchange.exchangeId!!))
+            mockViewModel.dispatchViewIntent(ExchangeDetailViewIntent.GetExchangeById(exchange.exchangeId))
         } just Runs
 
         composeTestRule.setContent {
             ExchangeDetailScreen(
-                exchangeId = exchange.exchangeId!!,
+                exchangeId = exchange.exchangeId,
                 navController = rememberNavController()
             )
         }
 
-        composeTestRule.onNodeWithText(exchange.name!!).assertExists()
+        composeTestRule.onNodeWithText(exchange.name).assertExists()
         composeTestRule.onNodeWithText(exchange.website!!).assertExists()
     }
 
@@ -76,7 +76,7 @@ class ExchangeDetailScreenTest {
 
         composeTestRule.setContent {
             ExchangeDetailScreen(
-                exchangeId = exchange.exchangeId!!,
+                exchangeId = exchange.exchangeId,
                 navController = rememberNavController()
             )
         }

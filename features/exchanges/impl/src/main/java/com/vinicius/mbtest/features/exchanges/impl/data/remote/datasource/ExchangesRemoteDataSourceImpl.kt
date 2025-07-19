@@ -2,16 +2,14 @@ package com.vinicius.mbtest.features.exchanges.impl.data.remote.datasource
 
 import android.util.Log
 import com.vinicius.mbtest.core.extensions.parseHttpError
-import com.vinicius.mbtest.features.exchanges.impl.data.remote.api.CoinService
 import com.vinicius.mbtest.features.exchanges.data.remote.model.ExchangeResponse
+import com.vinicius.mbtest.features.exchanges.impl.data.remote.api.CoinService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.HttpException
-import retrofit2.Response
 
 class ExchangesRemoteDataSourceImpl(
     private val service: CoinService,
@@ -19,15 +17,15 @@ class ExchangesRemoteDataSourceImpl(
 ) : ExchangesRemoteDataSource {
 
     override fun getExchanges(): Flow<List<ExchangeResponse>> = flow {
-        Log.i("GetExchangesRemoteDataSourceImpl", "Fetching exchanges...")
-//        emit(service.getExchanges())
+        emit(service.getExchanges())
+    }.catch {
+        // aqui sim captura falha do service
+        throw it // repropaga pro bloco catch do repositório
+    }.flowOn(dispatcher)
 
-//        kotlinx.coroutines.delay(1000L)
-//        emit(mockExchanges())
-
-//        kotlinx.coroutines.delay(1000L)
-        emit(throw Exception())
-    }.parseHttpError().flowOn(dispatcher)
+    private fun List<ExchangeResponse>.getValidExchanges() = this.filter {
+        it.exchangeId != null && it.name != null && it.volume1dayUsd != null
+    }
 
     private fun mockExchanges(): List<ExchangeResponse> = (1..20).map { i ->
         ExchangeResponse(

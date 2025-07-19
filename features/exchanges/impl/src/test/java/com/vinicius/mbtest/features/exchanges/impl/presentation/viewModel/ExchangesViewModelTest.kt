@@ -28,7 +28,7 @@ class ExchangesViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val getExchangesUseCase: GetExchangesUseCase = mockk()
+    private val getExchangesUseCase: GetExchangesUseCase = mockk(relaxed = true)
     private val viewModel = ExchangesViewModel(
         getExchangesUseCase = getExchangesUseCase
     )

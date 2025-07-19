@@ -28,7 +28,7 @@ fun ExchangeContentScreen(
             .testTag(LIST_TEST_TAG),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(viewState.exchanges, key = { it.exchangeId!! }) { exchange ->
+        items(viewState.exchanges, key = { it.exchangeId }) { exchange ->
             ExchangeItem(exchange, viewIntent)
         }
     }

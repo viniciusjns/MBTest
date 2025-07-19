@@ -4,6 +4,7 @@ import com.vinicius.mbtest.features.exchanges.domain.repository.ExchangesReposit
 import com.vinicius.mbtest.features.exchanges.impl.domain.useCase.GetExchangeByIdUseCaseImpl
 import com.vinicius.mbtest.features.exchanges.impl.stub.exchangeStub
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
@@ -12,7 +13,7 @@ import org.junit.Test
 
 class GetExchangeByIdUseCaseImplTest {
 
-    private val repository: ExchangesRepository = mockk()
+    private val repository: ExchangesRepository = mockk(relaxed = true)
     private val getExchangesUseCase = GetExchangeByIdUseCaseImpl(
         repository = repository
     )
@@ -26,6 +27,6 @@ class GetExchangeByIdUseCaseImplTest {
         val result = getExchangesUseCase.invoke(mockId)
 
         assertEquals(expected, result)
-        verify(exactly = 1) { repository.getExchangeById(mockId) }
+        coVerify(exactly = 1) { repository.getExchangeById(mockId) }
     }
 }

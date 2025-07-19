@@ -5,8 +5,15 @@ import com.vinicius.mbtest.core.extensions.readJsonFile
 import com.vinicius.mbtest.core.test.MainCoroutineTestRule
 import com.vinicius.mbtest.core.test.RemoteTestRule
 import com.vinicius.mbtest.features.exchanges.domain.repository.ExchangesRepository
+import com.vinicius.mbtest.features.exchanges.impl.data.local.dao.ExchangeDAO
 import com.vinicius.mbtest.features.exchanges.impl.data.local.datasource.ExchangesLocalDataSourceImpl
+import com.vinicius.mbtest.features.exchanges.impl.data.mapper.toDomain
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.datasource.ExchangesRemoteDataSourceImpl
+import com.vinicius.mbtest.features.exchanges.impl.stub.exchangeStub
+import com.vinicius.mbtest.features.exchanges.impl.stub.exchangesEntityStub
+import com.vinicius.mbtest.features.exchanges.impl.stub.exchangesStub
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -26,6 +33,9 @@ class ExchangesRepositoryImplIntegrationTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineTestRule()
 
+    private val exchangeDao: ExchangeDAO = mockk(relaxed = true)
+    private val localDataSource = ExchangesLocalDataSourceImpl(exchangeDAO = exchangeDao)
+
     private lateinit var repository: ExchangesRepository
 
     @Before
@@ -35,7 +45,7 @@ class ExchangesRepositoryImplIntegrationTest {
                 service = remoteTestRule.createTestService(),
                 dispatcher = mainCoroutineRule.testDispatcher
             ),
-            localDataSource = ExchangesLocalDataSourceImpl()
+            localDataSource = localDataSource
         )
     }
 
@@ -43,7 +53,7 @@ class ExchangesRepositoryImplIntegrationTest {
     fun `getExchanges should return success`() = runTest {
         // Given
         val expectedSize = 2
-        val expectedExchangeId = "MERCADOBITCOIN"
+        val expectedExchangeId = "exch_1"
         remoteTestRule.enqueueResponse(EXCHANGE_SUCCESS_RESPONSE.readJsonFile(), code = 200)
 
         // When
@@ -59,18 +69,20 @@ class ExchangesRepositoryImplIntegrationTest {
     }
 
     @Test
-    fun `getExchanges should return error`() = runTest {
+    fun `getExchanges should return fallback when some error happens`() = runTest {
         // Given
+        val exchangesEntity = exchangesEntityStub()
+        val expectedFallback = exchangesEntity.map { it.toDomain() }
         remoteTestRule.enqueueResponse(EXCHANGE_ERROR_RESPONSE.readJsonFile(), code = 500)
+        coEvery { localDataSource.getExchanges() } returns exchangesEntity
 
         // When
         val result = repository.getExchanges()
 
         // Then
         result.test {
-            val error = awaitError()
-            assertTrue(error is Exception)
-            cancelAndIgnoreRemainingEvents()
+            assertEquals(expectedFallback, awaitItem())
+            awaitComplete()
         }
     }
 }

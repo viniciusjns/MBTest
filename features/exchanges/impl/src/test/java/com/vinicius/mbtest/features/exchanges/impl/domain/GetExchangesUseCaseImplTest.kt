@@ -14,7 +14,7 @@ import org.junit.Test
 
 class GetExchangesUseCaseImplTest {
 
-    private val repository: ExchangesRepository = mockk()
+    private val repository: ExchangesRepository = mockk(relaxed = true)
     private val getExchangesUseCase = GetExchangesUseCaseImpl(
         repository = repository
     )

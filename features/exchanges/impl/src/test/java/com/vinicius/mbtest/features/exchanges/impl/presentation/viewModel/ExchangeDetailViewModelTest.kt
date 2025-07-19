@@ -24,7 +24,7 @@ class ExchangeDetailViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val getExchangeByIdUseCase: GetExchangeByIdUseCase = mockk()
+    private val getExchangeByIdUseCase: GetExchangeByIdUseCase = mockk(relaxed = true)
     private val viewModel = ExchangeDetailViewModel(
         getExchangeByIdUseCase = getExchangeByIdUseCase
     )
@@ -34,13 +34,14 @@ class ExchangeDetailViewModelTest {
         // Given
         val selectedExchange = exchangeStub()
         val exchangeId = selectedExchange.exchangeId
-        coEvery { getExchangeByIdUseCase(exchangeId!!) } returns selectedExchange
+        coEvery { getExchangeByIdUseCase(exchangeId) } returns selectedExchange
 
         // When
-        viewModel.dispatchViewIntent(ExchangeDetailViewIntent.GetExchangeById(exchangeId!!))
+        viewModel.dispatchViewIntent(ExchangeDetailViewIntent.GetExchangeById(exchangeId))
 
         // Then
         viewModel.state.test {
+            skipItems(1)
             assertEquals(
                 ExchangeDetailViewState(
                     exchange = selectedExchange.toDataUi(),

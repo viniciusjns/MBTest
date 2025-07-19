@@ -38,7 +38,7 @@ fun ExchangeItem(
             .testTag("${EXCHANGES_ITEM_TEST_TAG}_${exchangeDataUi.exchangeId}")
             .padding(bottom = 8.dp)
             .clickable {
-                viewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId = exchangeDataUi.exchangeId!!))
+                viewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId = exchangeDataUi.exchangeId))
             },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
@@ -60,14 +60,14 @@ fun ExchangeItem(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
-                        text = exchangeDataUi.name!!,
+                        text = exchangeDataUi.name,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
-                        text = stringResource(R.string.id, exchangeDataUi.exchangeId!!),
+                        text = stringResource(R.string.id, exchangeDataUi.exchangeId),
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.labelSmall,
                     )

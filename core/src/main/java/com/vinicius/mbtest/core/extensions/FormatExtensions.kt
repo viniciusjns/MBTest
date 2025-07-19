@@ -17,7 +17,7 @@ fun String.formatToBrazilianDate(
         val inputFormat = SimpleDateFormat(inputPattern, Locale("pt", "BR"))
         val outputFormat = SimpleDateFormat(outputPattern, Locale("pt", "BR"))
         val date = inputFormat.parse(this)
-        outputFormat.format(date!!)
+        date?.let { outputFormat.format(it) } ?: this
     } catch (e: Exception) {
         this
     }
