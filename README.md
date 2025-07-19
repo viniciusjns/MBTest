@@ -62,6 +62,6 @@ COIN_API_KEY=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
 ## Contato
 
-Desenvolvido por [viniciussilvapicpay](https://github.com/viniciussilvapicpay).
+Desenvolvido por [viniciusjns](https://github.com/viniciusjns).
 
 ---
