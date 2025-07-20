@@ -19,5 +19,6 @@ data class ExchangeEntity(
     val dataSymbolsCount: Int?,
     val volume1hrsUsd: Double,
     val volume1dayUsd: Double?,
-    val volume1mthUsd: Double?
+    val volume1mthUsd: Double?,
+    val iconUrl: String? = null
 )

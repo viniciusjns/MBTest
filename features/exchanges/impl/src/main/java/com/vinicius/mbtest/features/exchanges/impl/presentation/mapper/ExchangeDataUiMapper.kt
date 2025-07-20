@@ -19,4 +19,5 @@ fun Exchange.toDataUi(): ExchangeDataUi = ExchangeDataUi(
     volume1hrsUsd = volume1hrsUsd.toString().toMoney(),
     volume1dayUsd = volume1dayUsd.toString().toMoney(),
     volume1mthUsd = volume1mthUsd.toString().toMoney(),
+    iconUrl = iconUrl
 )

@@ -13,5 +13,6 @@ data class ExchangeDataUi(
     val dataSymbolsCount: String?,
     val volume1hrsUsd: String,
     val volume1dayUsd: String?,
-    val volume1mthUsd: String?
+    val volume1mthUsd: String?,
+    val iconUrl: String?
 )

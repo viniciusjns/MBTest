@@ -214,7 +214,8 @@ fun ExchangeDetailScreenPreview() {
         dataSymbolsCount = "462",
         volume1hrsUsd = "228.67",
         volume1dayUsd = "829.7K",
-        volume1mthUsd = "192.7M"
+        volume1mthUsd = "192.7M",
+        iconUrl = "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/5fbfbd742fb64c67a3963ebd7265f9f3.png",
     )
     ExchangeDetailContentScreen(exchange = mockExchange, intent = {})
 }
