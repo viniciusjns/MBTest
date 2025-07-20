@@ -1,13 +1,13 @@
 import androidx.lifecycle.viewModelScope
+import com.vinicius.mbtest.core.extensions.launchFlow
 import com.vinicius.mbtest.core.viewModel.BaseViewModel
 import com.vinicius.mbtest.core.viewModel.IViewIntent
+import com.vinicius.mbtest.features.exchanges.domain.model.Exchange
 import com.vinicius.mbtest.features.exchanges.domain.useCase.GetExchangesUseCase
 import com.vinicius.mbtest.features.exchanges.impl.presentation.action.ExchangesAction
 import com.vinicius.mbtest.features.exchanges.impl.presentation.mapper.toDataUi
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangesSyncState
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangesViewState
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 sealed class ExchangesViewIntent : IViewIntent {
     object FetchExchanges : ExchangesViewIntent()
@@ -27,23 +27,36 @@ class ExchangesViewModel(
     }
 
     private fun fetchExchanges() {
-        viewModelScope.launch {
-            setState { this.copy(syncState = ExchangesSyncState.Loading) }
+        if (state.value.exchanges.isNotEmpty()) return
 
-            getExchangesUseCase()
-                .catch { exception ->
-                    setState {
-                        this.copy(syncState = ExchangesSyncState.Error(message = exception.localizedMessage ?: "An error occurred"))
-                    }
-                }
-                .collect { exchangesList ->
-                    val dataUi = exchangesList.map { exchanges ->
-                        exchanges.toDataUi()
-                    }
-                    setState {
-                        this.copy(exchanges = dataUi, syncState = ExchangesSyncState.Success)
-                    }
-                }
+        viewModelScope.launchFlow(
+            data = { getExchangesUseCase() },
+            onStart = {
+                setState { copy(syncState = ExchangesSyncState.Loading) }
+            },
+            onSuccess = { exchangesList ->
+                handleSuccess(exchangesList)
+            },
+            onError = { exception ->
+                handleError(exception)
+            }
+        )
+    }
+
+    private fun handleSuccess(exchangesList: List<Exchange>) {
+        val dataUi = exchangesList.map { it.toDataUi() }
+        setState {
+            copy(exchanges = dataUi, syncState = ExchangesSyncState.Success)
+        }
+    }
+
+    private fun handleError(exception: Throwable) {
+        setState {
+            copy(
+                syncState = ExchangesSyncState.Error(
+                    message = exception.localizedMessage ?: "An error occurred"
+                )
+            )
         }
     }
 
