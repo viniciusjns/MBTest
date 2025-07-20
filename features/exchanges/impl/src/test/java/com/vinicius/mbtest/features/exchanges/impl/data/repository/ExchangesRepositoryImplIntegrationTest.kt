@@ -9,21 +9,21 @@ import com.vinicius.mbtest.features.exchanges.impl.data.local.dao.ExchangeDAO
 import com.vinicius.mbtest.features.exchanges.impl.data.local.datasource.ExchangesLocalDataSourceImpl
 import com.vinicius.mbtest.features.exchanges.impl.data.mapper.toDomain
 import com.vinicius.mbtest.features.exchanges.impl.data.remote.datasource.ExchangesRemoteDataSourceImpl
-import com.vinicius.mbtest.features.exchanges.impl.stub.exchangeStub
 import com.vinicius.mbtest.features.exchanges.impl.stub.exchangesEntityStub
-import com.vinicius.mbtest.features.exchanges.impl.stub.exchangesStub
+import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.io.FileNotFoundException
 
 private const val EXCHANGE_SUCCESS_RESPONSE = "coin_api_exchanges_success_response.json"
 private const val EXCHANGE_ERROR_RESPONSE = "coin_api_exchanges_error_response.json"
+private const val ICONS_SUCCESS_RESPONSE = "coin_api_icons_success_response.json"
 
 class ExchangesRepositoryImplIntegrationTest {
 
@@ -50,11 +50,14 @@ class ExchangesRepositoryImplIntegrationTest {
     }
 
     @Test
-    fun `getExchanges should return success`() = runTest {
+    fun `getExchanges should return success and store data locally`() = runTest {
         // Given
         val expectedSize = 2
         val expectedExchangeId = "exch_1"
+
+        // Simula a resposta da API
         remoteTestRule.enqueueResponse(EXCHANGE_SUCCESS_RESPONSE.readJsonFile(), code = 200)
+        remoteTestRule.enqueueResponse(ICONS_SUCCESS_RESPONSE.readJsonFile(), code = 200)
 
         // When
         val result = repository.getExchanges()

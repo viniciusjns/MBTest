@@ -16,7 +16,8 @@ fun exchangesStub() = (1..20).map { i ->
         dataSymbolsCount = "${i * 100}",
         volume1hrsUsd = "${i * 1000.0}",
         volume1dayUsd = "${i * 5000.0}",
-        volume1mthUsd = "${i * 20000.0}"
+        volume1mthUsd = "${i * 20000.0}",
+        iconUrl = "https://example.com/icon$i.png",
     )
 }
 

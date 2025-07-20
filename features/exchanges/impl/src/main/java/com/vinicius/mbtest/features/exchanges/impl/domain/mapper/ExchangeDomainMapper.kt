@@ -17,5 +17,5 @@ fun ExchangeResponse.toDomain(): Exchange = Exchange(
     volume1hrsUsd = this.volume1hrsUsd ?: 0.0,
     volume1dayUsd = this.volume1dayUsd,
     volume1mthUsd = this.volume1mthUsd,
-    iconUrl = null
+    iconUrl = ""
 )

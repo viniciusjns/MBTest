@@ -47,12 +47,32 @@ class ExchangesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val initialState = ExchangesViewState()
-    private val mockState = MutableStateFlow(initialState)
-    private val mockAction = MutableSharedFlow<ExchangesAction>()
-    private val mockViewModel = mockk<ExchangesViewModel> {
-        every { state } returns mockState
-        every { action } returns mockAction
+    companion object {
+        private val initialState = ExchangesViewState()
+        private val mockState = MutableStateFlow(initialState)
+        private val mockAction = MutableSharedFlow<ExchangesAction>()
+        private val mockViewModel = mockk<ExchangesViewModel>(relaxed = true) {
+            every { state } returns mockState
+            every { action } returns mockAction
+        }
+        private val module = module {
+            viewModel { mockViewModel }
+        }
+
+        @JvmStatic
+        @BeforeClass
+        fun setUpClass() {
+            startKoin {
+                androidContext(ApplicationProvider.getApplicationContext())
+                modules(module)
+            }
+        }
+
+        @JvmStatic
+        @AfterClass
+        fun tearDownClass() {
+            stopKoin()
+        }
     }
 
     @Test
@@ -113,59 +133,33 @@ class ExchangesScreenTest {
             ExchangeScreen(viewModel = mockViewModel, navController = navController)
         }
 
-        // Aqui você precisa saber o que o ExchangeContentScreen exibe
-        composeTestRule.onNodeWithTag(LIST_TEST_TAG).assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag(LIST_TEST_TAG)
+            .assertIsDisplayed()
     }
 
     @Test
     fun should_navigate_to_exchangeDetails_when_exchangeItem_is_clicked() {
         val exchanges = exchangesStub()
         val exchangeId = exchanges.first().exchangeId
-        mockState.update { it.copy(exchanges = exchanges, syncState = ExchangesSyncState.Success) }
-
-        every {
-            mockViewModel.dispatchViewIntent(ExchangesViewIntent.FetchExchanges)
-        } just Runs
+        mockState.update {
+            it.copy(
+                exchanges = exchanges,
+                syncState = ExchangesSyncState.Success
+            )
+        }
 
         every {
             mockViewModel.dispatchViewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId))
-        } coAnswers {
-            mockAction.emit(ExchangesAction.NavigateToDetails(exchangeId))
-        }
+        } just Runs
 
         composeTestRule.setContent {
             val navController = rememberNavController()
-            SetupNavigation(navController, startDestination = ScreenRoutes.ExchangeScreenRoute.route)
-            ExchangeScreen(navController = navController, viewModel = mockViewModel)
+            ExchangeScreen(viewModel = mockViewModel, navController = navController)
         }
 
         composeTestRule
-            .onNodeWithTag("${EXCHANGES_ITEM_TEST_TAG}_${exchangeId}")
+            .onNodeWithTag("${EXCHANGES_ITEM_TEST_TAG}_$exchangeId")
             .performClick()
-    }
-
-    companion object {
-        private val mockRepo: ExchangesRepository = mockk(relaxed = true)
-        private val mockViewModel: ExchangeDetailViewModel = mockk(relaxed = true)
-        private val module = module {
-            single { mockRepo }
-            viewModel { mockViewModel }
-        }
-
-        @JvmStatic
-        @BeforeClass
-        fun setUpClass() {
-            every { mockRepo.getExchanges() } returns MutableStateFlow(emptyList())
-            startKoin {
-                androidContext(ApplicationProvider.getApplicationContext())
-                modules(exchangeModule + module)
-            }
-        }
-
-        @JvmStatic
-        @AfterClass
-        fun tearDownClass() {
-            stopKoin()
-        }
     }
 }

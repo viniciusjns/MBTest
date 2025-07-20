@@ -1,0 +1,10 @@
+[
+  {
+    "exchange_id": "MERCADOBITCOIN",
+    "url": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/5fbfbd742fb64c67a3963ebd7265f9f3.png"
+  },
+  {
+    "exchange_id": "BINANCE",
+    "url": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/74eaad903814407ebdfc3828fe5318ba.png"
+  }
+]

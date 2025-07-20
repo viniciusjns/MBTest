@@ -6,8 +6,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import androidx.test.core.app.ApplicationProvider
-import com.vinicius.mbtest.features.exchanges.domain.repository.ExchangesRepository
-import com.vinicius.mbtest.features.exchanges.impl.di.exchangeModule
 import com.vinicius.mbtest.features.exchanges.impl.presentation.action.ExchangeDetailAction
 import com.vinicius.mbtest.features.exchanges.impl.presentation.screen.exchangeDetail.ExchangeDetailScreen
 import com.vinicius.mbtest.features.exchanges.impl.presentation.state.ExchangeDetailSyncState
@@ -39,12 +37,32 @@ class ExchangeDetailScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val initialState = ExchangeDetailViewState()
-    private val mockState = MutableStateFlow(initialState)
-    private val mockAction = MutableSharedFlow<ExchangeDetailAction>()
-    private val mockViewModel = mockk<ExchangeDetailViewModel>(relaxed = true) {
-        every { state } returns mockState
-        every { action } returns mockAction
+
+    companion object {
+        private val initialState = ExchangeDetailViewState()
+        private val mockState = MutableStateFlow(initialState)
+        private val mockAction = MutableSharedFlow<ExchangeDetailAction>()
+        private val mockViewModel = mockk<ExchangeDetailViewModel>(relaxed = true) {
+            every { state } returns mockState
+            every { action } returns mockAction
+        }
+
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            startKoin {
+                androidContext(ApplicationProvider.getApplicationContext())
+                modules(module {
+                    viewModel { mockViewModel }
+                })
+            }
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun tearDownClass() {
+            stopKoin()
+        }
     }
 
     @Test
@@ -69,7 +87,12 @@ class ExchangeDetailScreenTest {
     @Test
     fun when_BackButton_is_clicked_then_calls_OnBackPressed_intent() {
         val exchange = exchangeStub()
-        mockState.update { it.copy(exchange = exchange, syncState = ExchangeDetailSyncState.Success) }
+        mockState.update {
+            it.copy(
+                exchange = exchange,
+                syncState = ExchangeDetailSyncState.Success
+            )
+        }
         every {
             mockViewModel.dispatchViewIntent(ExchangeDetailViewIntent.OnBackPressed)
         } just Runs
@@ -88,20 +111,5 @@ class ExchangeDetailScreenTest {
         verify(exactly = 1) {
             mockViewModel.dispatchViewIntent(ExchangeDetailViewIntent.OnBackPressed)
         }
-    }
-
-    @Before
-    fun setup() {
-        startKoin {
-            androidContext(ApplicationProvider.getApplicationContext())
-            modules(module {
-                viewModel { mockViewModel }
-            })
-        }
-    }
-
-    @After
-    fun tearDownClass() {
-        stopKoin()
     }
 }

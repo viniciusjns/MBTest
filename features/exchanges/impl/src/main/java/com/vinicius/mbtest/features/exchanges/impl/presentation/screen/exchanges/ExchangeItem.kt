@@ -44,18 +44,21 @@ fun ExchangeItem(
 ) {
     Card(
         modifier = Modifier
-            .testTag("${EXCHANGES_ITEM_TEST_TAG}_${exchangeDataUi.exchangeId}")
-            .padding(bottom = 8.dp)
-            .clickable {
-                viewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeId = exchangeDataUi.exchangeId))
-            },
+            .padding(bottom = 8.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = MaterialTheme.colorScheme.secondary
         ),
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("${EXCHANGES_ITEM_TEST_TAG}_${exchangeDataUi.exchangeId}")
+                .clickable {
+                    viewIntent(ExchangesViewIntent.OnExchangeClicked(exchangeDataUi.exchangeId))
+                }
+        ) {
             AsyncImage(
                 modifier = Modifier
                     .size(56.dp)
