@@ -13,11 +13,9 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<VS : IViewState, A : IAction, VI: IViewIntent>(initialViewState: VS) : ViewModel() {
 
-    // StateFlow for UI state
     private val _state = MutableStateFlow(initialViewState)
     val state: StateFlow<VS> = _state.asStateFlow()
 
-    // SharedFlow for one-time UI events (effects)
     private val _action = MutableSharedFlow<A>()
     val action: SharedFlow<A> = _action.asSharedFlow()
 

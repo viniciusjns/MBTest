@@ -55,7 +55,6 @@ class ExchangesRepositoryImplIntegrationTest {
         val expectedSize = 2
         val expectedExchangeId = "exch_1"
 
-        // Simula a resposta da API
         remoteTestRule.enqueueResponse(EXCHANGE_SUCCESS_RESPONSE.readJsonFile(), code = 200)
         remoteTestRule.enqueueResponse(ICONS_SUCCESS_RESPONSE.readJsonFile(), code = 200)
 
