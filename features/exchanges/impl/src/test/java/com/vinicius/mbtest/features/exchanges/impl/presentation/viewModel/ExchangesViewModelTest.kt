@@ -3,6 +3,8 @@ package com.vinicius.mbtest.features.exchanges.impl.presentation.viewModel
 import ExchangesViewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.vinicius.mbtest.core.remote.model.HttpError
+import com.vinicius.mbtest.core.remote.model.HttpThrowable
 import com.vinicius.mbtest.core.test.MainCoroutineTestRule
 import com.vinicius.mbtest.features.exchanges.domain.useCase.GetExchangesUseCase
 import com.vinicius.mbtest.features.exchanges.impl.presentation.action.ExchangesAction
@@ -58,7 +60,7 @@ class ExchangesViewModelTest {
     fun `should emit loading and then error when use case throws`() = runTest {
         // Given
         coEvery { getExchangesUseCase() } returns flow {
-            throw RuntimeException("Network error")
+            throw HttpThrowable(HttpError.GENERIC)
         }
 
         // When
@@ -67,7 +69,7 @@ class ExchangesViewModelTest {
         // Then
         viewModel.state.test {
             assertEquals(ExchangesViewState(syncState = ExchangesSyncState.Loading), awaitItem())
-            assertEquals(ExchangesViewState(syncState = ExchangesSyncState.Error("Network error")), awaitItem())
+            assertEquals(ExchangesViewState(syncState = ExchangesSyncState.Error("Unknown error")), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }

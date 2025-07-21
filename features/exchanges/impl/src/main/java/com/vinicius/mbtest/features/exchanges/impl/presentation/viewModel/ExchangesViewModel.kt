@@ -1,4 +1,6 @@
 import androidx.lifecycle.viewModelScope
+import com.vinicius.mbtest.core.remote.model.HttpError
+import com.vinicius.mbtest.core.remote.model.HttpThrowable
 import com.vinicius.mbtest.core.extensions.launchFlow
 import com.vinicius.mbtest.core.viewModel.BaseViewModel
 import com.vinicius.mbtest.core.viewModel.IViewIntent
@@ -51,10 +53,14 @@ class ExchangesViewModel(
     }
 
     private fun handleError(exception: Throwable) {
+        val error = when (exception) {
+            is HttpThrowable -> exception.httpError
+            else -> HttpError.GENERIC
+        }
         setState {
             copy(
                 syncState = ExchangesSyncState.Error(
-                    message = exception.localizedMessage ?: "An error occurred"
+                    message = error.message
                 )
             )
         }

@@ -58,7 +58,6 @@ COIN_API_KEY=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
 - Melhorar design das telas (criar um design system);
 - Melhorar a navegação entre módulos;
-- Melhorar o tratamento de erros;
 
 ## Contato
 
